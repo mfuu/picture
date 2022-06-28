@@ -1,11 +1,11 @@
 <section class="mu-picture__toolbar">
-  {#each defaults as toolbar }
+  {#each toolbars as toolbar }
     <div class="mu-picture__toolbar-group">
       {#each toolbar as item }
         <button
           class="mu-picture__toolbar-icons"
-          tooltip={ getToolbarInfo(item).tooltip }
-          on:click={ handleToolbarClick }
+          tooltip={ item.tooltip }
+          on:click={ () => handleToolbarClick(item) }
         ></button>
       {/each}
     </div>
@@ -13,15 +13,27 @@
 </section>
 
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte';
   import { createDefaultToolbarItemInfo } from './util';
+  import type { toolbarInfo } from './util'
+
+  const dispatch = createEventDispatcher();
+
   const defaults = [['redo', 'undo'], ['text'], ['mosaic']];
 
-  function getToolbarInfo(item: string) {
-    return { ...createDefaultToolbarItemInfo(item) }
+  let toolbars: Array<any> = [];
+
+  $: {
+    defaults.forEach((group, index) => {
+      group.forEach(item => {
+        if (!toolbars[index]) toolbars[index] = []
+        toolbars[index].push({ ...createDefaultToolbarItemInfo(item) })
+      })
+    })
   }
 
-  function handleToolbarClick(e: any) {
-    console.log(e)
+  function handleToolbarClick(item: toolbarInfo) {
+    if (item.command) dispatch(item.command)
   }
 </script>
 

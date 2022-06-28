@@ -1,10 +1,9 @@
 // types.ts
 
-interface toolbarInfo {
+export interface toolbarInfo {
   name: string;
   className: string;
   tooltip: string;
-  state: string;
   command?: string;
 }
 
@@ -17,7 +16,6 @@ export function createDefaultToolbarItemInfo(type: string) {
         name: 'undo',
         className: 'mu-picture-undo',
         tooltip: 'undo',
-        state: 'undo',
       }
       break
     case 'redo':
@@ -26,7 +24,6 @@ export function createDefaultToolbarItemInfo(type: string) {
         className: 'mu-picture-redo',
         command: 'redo',
         tooltip: 'redo',
-        state: 'redo',
       }
       break
     case 'text':
@@ -34,7 +31,6 @@ export function createDefaultToolbarItemInfo(type: string) {
         name: 'text',
         className: 'text',
         tooltip: '添加文字',
-        state: 'text',
       }
       break
     case 'mosaic':
@@ -43,7 +39,6 @@ export function createDefaultToolbarItemInfo(type: string) {
         className: 'mosaic',
         command: 'mosaic',
         tooltip: '马赛克',
-        state: 'mosaic',
       }
       break
 

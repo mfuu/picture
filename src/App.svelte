@@ -1,8 +1,10 @@
 <div class="mu-picture">
 	<Toolbar />
 	<div class="mu-picture__content">
-		<Picker on:change={ handleFileChange } />
-    <Canvas url={ url } />
+    {#if visible }
+      <Picker on:change={ handleFileChange } />
+    {/if}
+    <Canvas { url } />
 	</div>
 </div>
 
@@ -13,11 +15,13 @@
   import Canvas from './components/Canvas/index.svelte';
 
   let url: string;
+  let visible: boolean = true;
 
   function handleFileChange(e: any) {
     const blob = e.detail[0]
-    if (!blob) return
-    url = getImageUrl(blob)
+    if (blob) url = getImageUrl(blob)
+    // hide file picker
+    visible = false
   }
 </script>
 
