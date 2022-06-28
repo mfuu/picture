@@ -1,9 +1,24 @@
 <div class="mu-picture">
 	<Toolbar />
+	<div class="mu-picture__content">
+		<Picker on:change={ handleFileChange } />
+    <Canvas url={ url } />
+	</div>
 </div>
 
 <script lang="ts">
+  import { getImageUrl } from './utils/index'
 	import Toolbar from './components/Toolbar/index.svelte';
+	import Picker from './components/Picker/index.svelte';
+  import Canvas from './components/Canvas/index.svelte';
+
+  let url: string;
+
+  function handleFileChange(e: any) {
+    const blob = e.detail[0]
+    if (!blob) return
+    url = getImageUrl(blob)
+  }
 </script>
 
 <style>
@@ -14,4 +29,13 @@
 		display: flex;
 		flex-direction: column;
 	}
+  .mu-picture__content {
+    height: auto;
+    min-height: 200px;
+    padding: 20px;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 </style>

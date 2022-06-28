@@ -12,15 +12,15 @@
   {/each}
 </section>
 
-<script>
-  import { createDefaultToolbarItemInfo } from './util.ts'
-  let defaults = [['redo', 'undo'], ['text'], ['mosaic']]
+<script lang="ts">
+  import { createDefaultToolbarItemInfo } from './util';
+  const defaults = [['redo', 'undo'], ['text'], ['mosaic']];
 
-  function getToolbarInfo(item) {
+  function getToolbarInfo(item: string) {
     return { ...createDefaultToolbarItemInfo(item) }
   }
 
-  function handleToolbarClick(e) {
+  function handleToolbarClick(e: any) {
     console.log(e)
   }
 </script>
@@ -43,6 +43,7 @@
     height: 70%;
     width: 1px;
     margin: 0 10px;
+    background-color: #eee;
   }
   .mu-picture__toolbar button {
     box-sizing: border-box;
