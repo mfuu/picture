@@ -26,7 +26,7 @@
 
 <style>
   .mu-picture__picker button {
-		line-height: 1.5715;
+    line-height: 1.5715;
     position: relative;
     display: inline-block;
     font-weight: 400;
