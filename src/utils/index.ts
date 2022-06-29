@@ -68,7 +68,7 @@ const captureMode = { capture: false, passive: false }
 /**
 * add specified event listener
 */
-export function on(el: HTMLElement, event: string, fn: EventListenerOrEventListenerObject) {
+export function on(el: any, event: string, fn: EventListenerOrEventListenerObject) {
   if (window.addEventListener) {
     el.addEventListener(event, fn, !IE11OrLess && captureMode)
   } else if (window.attachEvent) {
@@ -79,7 +79,7 @@ export function on(el: HTMLElement, event: string, fn: EventListenerOrEventListe
 /**
 * remove specified event listener
 */
-export function off(el: HTMLElement, event: string, fn: EventListenerOrEventListenerObject) {
+export function off(el: any, event: string, fn: EventListenerOrEventListenerObject) {
   if (window.removeEventListener) {
     el.removeEventListener(event, fn, !IE11OrLess && captureMode)
   } else if (window.detachEvent) {

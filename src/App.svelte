@@ -4,7 +4,8 @@
     {#if visible }
       <Picker on:change={ handleFileChange } />
     {/if}
-    <Canvas { url } />
+    <Canvas />
+    <Clip />
 	</div>
 </div>
 
@@ -13,13 +14,14 @@
 	import Toolbar from './components/Toolbar/index.svelte';
 	import Picker from './components/Picker/index.svelte';
   import Canvas from './components/Canvas/index.svelte';
+  import Clip from './components/Clip/index.svelte';
+  import { imageUrl } from './store/index';
 
-  let url: string;
   let visible: boolean = true;
 
   function handleFileChange(e: any) {
     const blob = e.detail[0]
-    if (blob) url = getImageUrl(blob)
+    if (blob) imageUrl.set(getImageUrl(blob))
     // hide file picker
     visible = false
   }
@@ -37,7 +39,6 @@
     height: auto;
     min-height: 200px;
     padding: 20px;
-    background: #fafafa;
     display: flex;
     align-items: center;
     justify-content: center;
