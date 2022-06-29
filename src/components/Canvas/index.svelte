@@ -10,7 +10,7 @@
   import { UndoRedo } from "./UndoRedo";
   import { onDestroy, onMount } from "svelte";
   import { Mosaic } from './Mosaic';
-  import type { Position, MosaicParam } from './Mosaic';
+  import type { Position, MosaicParam } from './interface';
   import { imageUrl } from '../../store/index';
 
   const KEYZ:string = 'KeyZ';
@@ -23,6 +23,7 @@
   let position: Position = { x: 0, y: 0 };
   let mosaic: MosaicParam = { size: 30, degree: 5 };
 
+  // Executed when the selected image changes
   $: $imageUrl, handleImgChange($imageUrl)
 
   function handleImgChange(url: string) {
@@ -46,6 +47,7 @@
     off(document, 'keydown', onKeyDown)
   })
 
+  // ctrl + z and ctrl + y
   function onKeyDown(e: KeyboardEvent) {
     e.preventDefault()
     if (e.ctrlKey || e.metaKey) {
@@ -54,7 +56,6 @@
       } else if (e.code === KEYY) {
         undoRedo.redo(canvas, context)
       }
-      console.log(undoRedo)
     }
   }
 

@@ -35,44 +35,49 @@
       event.preventDefault()
       event.stopPropagation()
       // 获取需要改变尺寸元素到页面的距离
-      const rect = clipRef.getBoundingClientRect()
+      // const rect = clipRef.getBoundingClientRect()
       const style = window.getComputedStyle ?  window.getComputedStyle(clipRef) : clipRef.currentStyle
+
+      // 获取原始 left top width height
       const ox = parseFloat(style.left)
       const oy = parseFloat(style.top)
 
+      const width = parseFloat(clipStyle.width)
+      const height = parseFloat(clipStyle.height)
+
       // 获取鼠标位置，和元素初始offset进行对比，
-      const chaX = evt.clientX - rect.left
-      const chaY = evt.clientY - rect.top
+      const chaX = evt.clientX - ox
+      const chaY = evt.clientY - oy
 
       switch (p) {
         case 'lt':
           // 如果移动距离接近宽度或高度，则不进行改变
-          if (chaX >= rect.width - 10 || chaY >= rect.height - 10) return
+          if (chaX >= width - 10 || chaY >= height - 10) return
 
           // 获得位置差（m-e）,先设置宽度和高度，再设置位置
           // 原始宽高+(（m-e）*-1)，原始位置+（m-e）
-          clipStyle.width = rect.width + chaX * -1 + 'px'
-          clipStyle.height = rect.height + chaY * -1 + 'px'
+          clipStyle.width = width + chaX * -1 + 'px'
+          clipStyle.height = height + chaY * -1 + 'px'
           clipStyle.left = ox + chaX + 'px'
           clipStyle.top = oy + chaY + 'px'
           break
         case 't':
           // 如果移动距离接近宽度或高度，则不进行改变
-          if (chaY >= rect.height - 10) return
+          if (chaY >= height - 10) return
 
           // 获得位置差（m-e）,先设置宽度和高度，再设置位置
           // 原始宽高+(（m-e）*-1)，原始位置+（m-e）
-          clipStyle.height = rect.height + chaY * -1 + 'px'
+          clipStyle.height = height + chaY * -1 + 'px'
           clipStyle.top = oy + chaY + 'px'
           break
         case 'rt':
           // 如果移动距离接近宽度或高度，则不进行改变
-          if (chaX <= 10 || chaY >= rect.height - 10) return
+          if (chaX <= 10 || chaY >= height - 10) return
 
           // 获得位置差（m-e）,先设置宽度和高度，设置位置
           // 原始高+(（m-e）*-1),原始宽+(（m-e）)，原始位置+（m-e）
           clipStyle.width = chaX + 'px'
-          clipStyle.height = rect.height + chaY * -1 + 'px'
+          clipStyle.height = height + chaY * -1 + 'px'
           clipStyle.top = oy + chaY + 'px'
           break
         case 'r':
@@ -102,25 +107,24 @@
           break
         case 'ld':
           // 如果移动距离接近宽度或高度，则不进行改变
-          if (chaX >= rect.width - 10 || chaY <= 10) return
+          if (chaX >= width - 10 || chaY <= 10) return
           // 获得位置差（m-e）,先设置宽度和高度，再设置位置
           // 原始宽高+(（m-e）*-1)，原始位置+（m-e）
-          clipStyle.width = rect.width + chaX * -1 + 'px'
+          clipStyle.width = width + chaX * -1 + 'px'
           clipStyle.height = chaY + 'px'
           clipStyle.left = ox + chaX + 'px'
           break
         case 'l':
           // 如果移动距离接近宽度或高度，则不进行改变
-          if (chaX >= rect.width - 10) return
+          if (chaX >= width - 10) return
 
           // 获得位置差（m-e）,先设置宽度和高度，再设置位置
           // 原始宽高+(（m-e）*-1)，原始位置+（m-e）
-          clipStyle.width = rect.width + chaX * -1 + 'px'
+          clipStyle.width = width + chaX * -1 + 'px'
           clipStyle.left = ox + chaX + 'px'
           break
         default:
           // 如果按下位置不在点上，整体移动
-          console.log(evt, rect)
           clipStyle.left = ox + chaX + 'px'
           clipStyle.top = oy + chaY + 'px'
           break

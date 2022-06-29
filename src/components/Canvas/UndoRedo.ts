@@ -5,7 +5,7 @@ export class UndoRedo {
   index: number; // current index
   constructor() {
     this.stack = []
-    this.index = 0
+    this.index = -1
   }
 
   current(image: HTMLImageElement) {
