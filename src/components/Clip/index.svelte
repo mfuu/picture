@@ -23,11 +23,11 @@
 <script lang="ts">
   import Mask from './Mask.svelte'
   import { onMount } from 'svelte';
-  import type { Style } from './interface';
+  import type { ClipStyle } from './interface';
 
   let cipFull: HTMLElement;
   let minSize: number = 50;
-  const clipStyle: Style = { left: 0, top: 0, width: 100, height: 100 };
+  const clipStyle: ClipStyle = { left: 0, top: 0, width: 100, height: 100 };
   const lastPostion = { x: 0, y: 0 }
 
   onMount(() => {

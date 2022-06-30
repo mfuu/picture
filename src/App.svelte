@@ -1,5 +1,5 @@
 <div class="mu-picture">
-  <Toolbar on:click={ handleToolbarClick } />
+  <Toolbar />
   <div class="mu-picture__content mu-picture__bg">
     {#if pickerVisible }
       <Picker on:change={ handleFileChange } />
@@ -16,15 +16,18 @@
   import Picker from './components/Picker/index.svelte';
   import Canvas from './components/Canvas/index.svelte';
   import Clip from './components/Clip/index.svelte';
+  import type { toolbarInfo } from './components/Toolbar/util'
+  import { storeToolbarClick } from './store/index';
 
   let pickerVisible: boolean = true;
   let clipVisible: boolean = false;
 
-  function handleToolbarClick({ detail }) {
-    if (detail === 'clip') {
+  storeToolbarClick.subscribe((value: toolbarInfo) => {
+    if (!value) return
+    if (value.name === 'clip') {
       clipVisible = !clipVisible
     }
-  }
+  })
 
   function handleFileChange(e: any) {
     // hide file picker

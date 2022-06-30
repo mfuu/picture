@@ -13,11 +13,9 @@
 </section>
 
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
   import { createDefaultToolbarItemInfo } from './util';
-  import type { toolbarInfo } from './util'
-
-  const dispatch = createEventDispatcher();
+  import type { toolbarInfo } from './util';
+  import { storeToolbarClick } from '../../store/index';
 
   const defaults = [['redo', 'undo'], ['text'], ['mosaic'], ['clip']];
 
@@ -33,7 +31,7 @@
   }
 
   function handleToolbarClick(item: toolbarInfo) {
-    if (item.command) dispatch('click', item.command)
+    storeToolbarClick.set(item)
   }
 </script>
 

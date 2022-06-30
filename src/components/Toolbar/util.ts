@@ -1,11 +1,4 @@
-// types.ts
-
-export interface toolbarInfo {
-  name: string;
-  className: string;
-  tooltip: string;
-  command?: string;
-}
+import type { toolbarInfo } from './interface'
 
 export function createDefaultToolbarItemInfo(type: string) {
   let info: toolbarInfo;

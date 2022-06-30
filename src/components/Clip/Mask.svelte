@@ -1,7 +1,7 @@
-<div style:height={ style.top + 'px' } class="mu-picture__clip-mask top"></div>
+<div style:height={ style.top <= 0 ? 0 : style.top + 'px' } class="mu-picture__clip-mask top"></div>
 <div style:top={ style.top + 'px' } style:left={ style.left + style.width + 'px' } style:height={ style.height + 'px' } class="mu-picture__clip-mask right"></div>
 <div style:top={ style.top + style.height + 'px' } class="mu-picture__clip-mask bottom"></div>
-<div style:top={ style.top + 'px' } style:width={ style.left + 'px' } style:height={ style.height + 'px' } class="mu-picture__clip-mask left"></div>
+<div style:top={ style.top + 'px' } style:width={ style.left <= 0 ? 0 : style.left + 'px' } style:height={ style.height + 'px' } class="mu-picture__clip-mask left"></div>
 
 <script>
   export let style;

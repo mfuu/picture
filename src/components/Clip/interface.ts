@@ -1,4 +1,4 @@
-export interface Style {
+export interface ClipStyle {
   width: number;
   height: number;
   left: number;

@@ -35,7 +35,7 @@
       canvas.height = height
       context.drawImage(image, 0, 0, width, height)
       undoRedo.insert(canvas)
-      storeCurrentImage.set(undoRedo.current())
+      updateStore()
     }
   }
 
@@ -48,6 +48,10 @@
     off(document, 'keydown', onKeyDown)
   })
 
+  function updateStore() {
+    storeCurrentImage.set(undoRedo.current())
+  }
+
   // ctrl + z and ctrl + y
   function onKeyDown(e: KeyboardEvent) {
     e.preventDefault()
@@ -57,7 +61,7 @@
       } else if (e.code === KEYY) {
         undoRedo.redo(canvas, context)
       }
-      storeCurrentImage.set(undoRedo.current())
+      updateStore()
     }
   }
 
@@ -82,7 +86,7 @@
     document.onpointermove = null
     document.onpointerup = null
     undoRedo.insert(canvas)
-    storeCurrentImage.set(undoRedo.current())
+    updateStore()
   }
 </script>
 
