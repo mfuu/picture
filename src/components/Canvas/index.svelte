@@ -11,10 +11,10 @@
   import { onDestroy, onMount } from "svelte";
   import { Mosaic } from './Mosaic';
   import type { Position, MosaicParam } from './interface';
-  import { imageUrl } from '../../store/index';
+  import { storeImageUrl, storeCurrentImage } from '../../store/index';
 
-  const KEYZ:string = 'KeyZ';
-  const KEYY:string = 'KeyY';
+  const KEYZ: string = 'KeyZ';
+  const KEYY: string = 'KeyY';
 
   let undoRedo = new UndoRedo;
   let canvas: HTMLCanvasElement;
@@ -24,7 +24,7 @@
   let mosaic: MosaicParam = { size: 30, degree: 5 };
 
   // Executed when the selected image changes
-  $: $imageUrl, handleImgChange($imageUrl)
+  $: $storeImageUrl, handleImgChange($storeImageUrl)
 
   function handleImgChange(url: string) {
     if (!url) return
@@ -35,6 +35,7 @@
       canvas.height = height
       context.drawImage(image, 0, 0, width, height)
       undoRedo.insert(canvas)
+      storeCurrentImage.set(undoRedo.current())
     }
   }
 
@@ -56,6 +57,7 @@
       } else if (e.code === KEYY) {
         undoRedo.redo(canvas, context)
       }
+      storeCurrentImage.set(undoRedo.current())
     }
   }
 
@@ -80,6 +82,7 @@
     document.onpointermove = null
     document.onpointerup = null
     undoRedo.insert(canvas)
+    storeCurrentImage.set(undoRedo.current())
   }
 </script>
 

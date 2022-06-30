@@ -1,3 +1,4 @@
 import { writable } from "svelte/store";
 
-export const imageUrl = writable('');
+export const storeImageUrl = writable('');
+export const storeCurrentImage = writable(null);

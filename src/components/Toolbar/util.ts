@@ -41,6 +41,13 @@ export function createDefaultToolbarItemInfo(type: string) {
         tooltip: '马赛克',
       }
       break
+    case 'clip':
+      info = {
+        name: 'clip',
+        className: 'clip',
+        tooltip: '裁剪',
+        command: 'clip'
+      }
 
     default:
     // do nothing

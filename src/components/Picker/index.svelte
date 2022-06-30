@@ -9,12 +9,16 @@
 </div>
 
 <script lang="ts">
+  import { getImageUrl } from '../../utils/index';
   import { createEventDispatcher } from 'svelte';
+  import { storeImageUrl } from '../../store/index';
 
   let inputRef: any;
   const dispatch = createEventDispatcher();
 
   function handleFileChange(e: any) {
+    const blob = e.target.files[0]
+    if (blob) storeImageUrl.set(getImageUrl(blob))
     dispatch('change', e.target.files)
   }
 

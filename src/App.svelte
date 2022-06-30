@@ -1,29 +1,34 @@
 <div class="mu-picture">
-  <Toolbar />
-  <div class="mu-picture__content">
-    {#if visible }
+  <Toolbar on:click={ handleToolbarClick } />
+  <div class="mu-picture__content mu-picture__bg">
+    {#if pickerVisible }
       <Picker on:change={ handleFileChange } />
     {/if}
+    {#if clipVisible }
+      <Clip />
+    {/if}
     <Canvas />
-    <Clip />
   </div>
 </div>
 
 <script lang="ts">
-  import { getImageUrl } from './utils/index';
   import Toolbar from './components/Toolbar/index.svelte';
   import Picker from './components/Picker/index.svelte';
   import Canvas from './components/Canvas/index.svelte';
   import Clip from './components/Clip/index.svelte';
-  import { imageUrl } from './store/index';
 
-  let visible: boolean = true;
+  let pickerVisible: boolean = true;
+  let clipVisible: boolean = false;
+
+  function handleToolbarClick({ detail }) {
+    if (detail === 'clip') {
+      clipVisible = !clipVisible
+    }
+  }
 
   function handleFileChange(e: any) {
-    const blob = e.detail[0]
-    if (blob) imageUrl.set(getImageUrl(blob))
     // hide file picker
-    visible = false
+    pickerVisible = false
   }
 </script>
 
@@ -34,13 +39,16 @@
     border-radius: 4px;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
   }
   .mu-picture__content {
+    position: relative;
     height: auto;
     min-height: 200px;
     padding: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
   }
 </style>

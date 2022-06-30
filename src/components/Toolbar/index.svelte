@@ -19,7 +19,7 @@
 
   const dispatch = createEventDispatcher();
 
-  const defaults = [['redo', 'undo'], ['text'], ['mosaic']];
+  const defaults = [['redo', 'undo'], ['text'], ['mosaic'], ['clip']];
 
   let toolbars: Array<any> = [];
 
@@ -33,7 +33,7 @@
   }
 
   function handleToolbarClick(item: toolbarInfo) {
-    if (item.command) dispatch(item.command)
+    if (item.command) dispatch('click', item.command)
   }
 </script>
 

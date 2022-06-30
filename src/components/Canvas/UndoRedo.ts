@@ -8,7 +8,7 @@ export class UndoRedo {
     this.index = -1
   }
 
-  current(image: HTMLImageElement) {
+  current(image?: HTMLImageElement) {
     if (image) this.stack[this.index] = image
     return this.stack[this.index]
   }
