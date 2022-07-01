@@ -38,6 +38,7 @@
 <style>
   .mu-picture {
     position: relative;
+    width: fit-content;
     border: 1px solid #dadde6;
     border-radius: 4px;
     display: flex;
