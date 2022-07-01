@@ -14,10 +14,10 @@
 
 <script lang="ts">
   import { createDefaultToolbarItemInfo } from './util';
-  import type { toolbarInfo } from './util';
+  import type { toolbarInfo } from './interface';
   import { storeToolbarClick } from '../../store/index';
 
-  const defaults = [['redo', 'undo'], ['text'], ['mosaic'], ['clip']];
+  const defaults = [['undo', 'redo'], ['text'], ['mosaic'], ['clip']];
 
   let toolbars: Array<any> = [];
 

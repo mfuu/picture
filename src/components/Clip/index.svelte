@@ -1,4 +1,5 @@
 <div
+  bind:this={ clipRef }
   class="mu-picture__clip"
   style:width={ clipStyle.width + 'px' }
   style:height={ clipStyle.height + 'px' }
@@ -25,6 +26,7 @@
   import { onMount } from 'svelte';
   import type { ClipStyle } from './interface';
 
+  let clipRef: HTMLElement;
   let cipFull: HTMLElement;
   let minSize: number = 50;
   const clipStyle: ClipStyle = { left: 0, top: 0, width: 100, height: 100 };
@@ -41,6 +43,7 @@
     event.stopPropagation()
     lastPostion.x = event.clientX
     lastPostion.y = event.clientY
+    clipRef.style['will-change'] = 'top, left, width, height'
     document.onpointermove = (evt: PointerEvent) => {
       event.preventDefault()
       event.stopPropagation()
@@ -125,6 +128,7 @@
     document.onpointercancel = onUp
   }
   function onUp() {
+    clipRef.style['will-change'] = 'auto'
     document.onpointermove = null
     document.onpointerup = null
   }

@@ -16,7 +16,7 @@
   import Picker from './components/Picker/index.svelte';
   import Canvas from './components/Canvas/index.svelte';
   import Clip from './components/Clip/index.svelte';
-  import type { toolbarInfo } from './components/Toolbar/util'
+  import type { toolbarInfo } from './components/Toolbar/interface'
   import { storeToolbarClick } from './store/index';
 
   let pickerVisible: boolean = true;

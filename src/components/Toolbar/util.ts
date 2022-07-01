@@ -8,6 +8,7 @@ export function createDefaultToolbarItemInfo(type: string) {
       info = {
         name: 'undo',
         className: 'mu-picture-undo',
+        command: 'undo',
         tooltip: 'undo',
       }
       break
