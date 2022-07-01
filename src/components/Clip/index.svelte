@@ -1,6 +1,7 @@
 <div
   bind:this={ clipRef }
   class="mu-picture__clip"
+  style:display={ visible ? '' : 'none' }
   style:width={ clipStyle.width + 'px' }
   style:height={ clipStyle.height + 'px' }
   style:left={ clipStyle.left + 'px' }
@@ -17,7 +18,7 @@
   <span class="mu-picture__clip-dot left" on:pointerdown={ (e) => handlePointerDown(e, 'l') }></span>
 </div>
 
-<Mask style={ clipStyle } />
+<Mask style={ clipStyle } on:start={ () => visible = true } on:move={ handleInitClip } />
 
 <div bind:this={ cipFull } class="mu-picture__clip-hiddenfull"></div>
 
@@ -26,17 +27,28 @@
   import { onMount } from 'svelte';
   import type { ClipStyle } from './interface';
 
+  export let container;
+
   let clipRef: HTMLElement;
   let cipFull: HTMLElement;
   let minSize: number = 50;
-  const clipStyle: ClipStyle = { left: 0, top: 0, width: 100, height: 100 };
-  const lastPostion = { x: 0, y: 0 }
+  let visible: boolean = false;
+  const clipStyle: ClipStyle = { left: 0, top: 0, width: 0, height: 0 };
+  const lastPostion = { x: 0, y: 0 };
 
   onMount(() => {
     const { clientWidth, clientHeight } = cipFull
     clipStyle.left = clientWidth / 2 - clipStyle.width / 2
     clipStyle.top = clientHeight / 2 - clipStyle.height / 2
   })
+
+  function handleInitClip(e: CustomEvent) {
+    const { top, left, height, width } = e.detail
+    clipStyle.height = height
+    clipStyle.width = width
+    clipStyle.top = top
+    clipStyle.left = left
+  }
 
   function handlePointerDown(event: PointerEvent, p?: string) {
     event.preventDefault()
@@ -131,6 +143,7 @@
     clipRef.style['will-change'] = 'auto'
     document.onpointermove = null
     document.onpointerup = null
+    document.onpointercancel = null
   }
 </script>
 
@@ -196,5 +209,6 @@
     right: 0;
     bottom: 0;
     left: 0;
+    z-index: -1;
   }
 </style>

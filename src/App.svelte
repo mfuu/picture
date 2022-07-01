@@ -1,11 +1,11 @@
 <div class="mu-picture">
   <Toolbar />
-  <div class="mu-picture__content mu-picture__bg">
+  <div bind:this={ container } class="mu-picture__content mu-picture__bg">
     {#if pickerVisible }
       <Picker on:change={ handleFileChange } />
     {/if}
     {#if clipVisible }
-      <Clip />
+      <Clip { container } />
     {/if}
     <Canvas />
   </div>
@@ -19,6 +19,7 @@
   import type { toolbarInfo } from './components/Toolbar/interface'
   import { storeToolbarClick } from './store/index';
 
+  let container: HTMLElement;
   let pickerVisible: boolean = true;
   let clipVisible: boolean = false;
 

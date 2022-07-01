@@ -95,6 +95,7 @@
   function onUp() {
     document.onpointermove = null
     document.onpointerup = null
+    document.onpointercancel = null
     undoRedo.insert(canvas)
     updateStore()
   }
