@@ -1,24 +1,32 @@
 <div
   bind:this={ clipRef }
   class="mu-picture__clip"
-  style:display={ visible ? '' : 'none' }
+  style:display={ clipVisible ? '' : 'none' }
   style:width={ clipStyle.width + 'px' }
   style:height={ clipStyle.height + 'px' }
   style:left={ clipStyle.left + 'px' }
   style:top={ clipStyle.top + 'px' }
   on:pointerdown={ handlePointerDown }
 >
-  <span class="mu-picture__clip-dot left-top" on:pointerdown={ (e) => handlePointerDown(e, 'lt') }></span>
-  <span class="mu-picture__clip-dot top" on:pointerdown={ (e) => handlePointerDown(e, 't') }></span>
-  <span class="mu-picture__clip-dot right-top" on:pointerdown={ (e) => handlePointerDown(e, 'rt') }></span>
-  <span class="mu-picture__clip-dot right" on:pointerdown={ (e) => handlePointerDown(e, 'r') }></span>
-  <span class="mu-picture__clip-dot right-down" on:pointerdown={ (e) => handlePointerDown(e, 'rd') }></span>
-  <span class="mu-picture__clip-dot down" on:pointerdown={ (e) => handlePointerDown(e, 'd') }></span>
-  <span class="mu-picture__clip-dot left-down" on:pointerdown={ (e) => handlePointerDown(e, 'ld') }></span>
-  <span class="mu-picture__clip-dot left" on:pointerdown={ (e) => handlePointerDown(e, 'l') }></span>
+  {#if maskVisible}
+    <span class="mu-picture__clip-dot left-top" on:pointerdown={ (e) => handlePointerDown(e, 'lt') }></span>
+    <span class="mu-picture__clip-dot top" on:pointerdown={ (e) => handlePointerDown(e, 't') }></span>
+    <span class="mu-picture__clip-dot right-top" on:pointerdown={ (e) => handlePointerDown(e, 'rt') }></span>
+    <span class="mu-picture__clip-dot right" on:pointerdown={ (e) => handlePointerDown(e, 'r') }></span>
+    <span class="mu-picture__clip-dot right-down" on:pointerdown={ (e) => handlePointerDown(e, 'rd') }></span>
+    <span class="mu-picture__clip-dot down" on:pointerdown={ (e) => handlePointerDown(e, 'd') }></span>
+    <span class="mu-picture__clip-dot left-down" on:pointerdown={ (e) => handlePointerDown(e, 'ld') }></span>
+    <span class="mu-picture__clip-dot left" on:pointerdown={ (e) => handlePointerDown(e, 'l') }></span>
+  {/if}
 </div>
 
-<Mask style={ clipStyle } on:start={ () => visible = true } on:move={ handleInitClip } />
+<Mask
+  style={ clipStyle }
+  container={ container }
+  on:start={ handleStartClip }
+  on:move={ handleInitClip }
+  on:end={ handleFinishedClip }
+/>
 
 <div bind:this={ cipFull } class="mu-picture__clip-hiddenfull"></div>
 
@@ -27,12 +35,13 @@
   import { onMount } from 'svelte';
   import type { ClipStyle } from './interface';
 
-  export let container;
+  export let container: HTMLElement;
 
   let clipRef: HTMLElement;
   let cipFull: HTMLElement;
   let minSize: number = 50;
-  let visible: boolean = false;
+  let clipVisible: boolean = false;
+  let maskVisible: boolean = false;
   const clipStyle: ClipStyle = { left: 0, top: 0, width: 0, height: 0 };
   const lastPostion = { x: 0, y: 0 };
 
@@ -42,6 +51,11 @@
     clipStyle.top = clientHeight / 2 - clipStyle.height / 2
   })
 
+  function handleStartClip() {
+    clipVisible = true
+    maskVisible = false
+  }
+
   function handleInitClip(e: CustomEvent) {
     const { top, left, height, width } = e.detail
     clipStyle.height = height
@@ -50,7 +64,11 @@
     clipStyle.left = left
   }
 
-  function handlePointerDown(event: PointerEvent, p?: string) {
+  function handleFinishedClip() {
+    maskVisible = true
+  }
+
+  function handlePointerDown(event: PointerEvent, dir?: string) {
     event.preventDefault()
     event.stopPropagation()
     lastPostion.x = event.clientX
@@ -67,7 +85,7 @@
       const disX = evt.clientX - lastPostion.x
       const disY = evt.clientY - lastPostion.y
 
-      switch (p) {
+      switch (dir) {
         case 'lt':
           // 向左上方拉伸，改变 width, height, left, top
           if (chaX >= clipStyle.width - minSize || chaY >= clipStyle.height - minSize) return

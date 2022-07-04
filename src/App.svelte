@@ -1,13 +1,15 @@
 <div class="mu-picture">
   <Toolbar />
   <div bind:this={ container } class="mu-picture__content mu-picture__bg">
+    <Canvas />
+    <!-- file picker -->
     {#if pickerVisible }
       <Picker on:change={ handleFileChange } />
     {/if}
+    <!-- clip box -->
     {#if clipVisible }
       <Clip { container } />
     {/if}
-    <Canvas />
   </div>
 </div>
 
@@ -50,7 +52,6 @@
     position: relative;
     height: auto;
     min-height: 200px;
-    padding: 20px;
     display: flex;
     align-items: center;
     justify-content: center;

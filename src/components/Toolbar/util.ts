@@ -7,7 +7,7 @@ export function createDefaultToolbarItemInfo(type: string) {
     case 'undo':
       info = {
         name: 'undo',
-        className: 'mu-picture-undo',
+        className: 'mu-picture__toolbar-undo',
         command: 'undo',
         tooltip: 'undo',
       }
@@ -15,7 +15,7 @@ export function createDefaultToolbarItemInfo(type: string) {
     case 'redo':
       info = {
         name: 'redo',
-        className: 'mu-picture-redo',
+        className: 'mu-picture__toolbar-redo',
         command: 'redo',
         tooltip: 'redo',
       }

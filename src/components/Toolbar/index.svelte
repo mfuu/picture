@@ -3,7 +3,7 @@
     <div class="mu-picture__toolbar-group">
       {#each toolbar as item }
         <button
-          class="mu-picture__toolbar-icons"
+          class={`mu-picture__toolbar-icons ${item.className}`}
           tooltip={ item.tooltip }
           on:click={ () => handleToolbarClick(item) }
         ></button>

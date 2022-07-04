@@ -31,7 +31,8 @@
   import { createEventDispatcher } from 'svelte';
   import type { ClipStyle } from './interface';
 
-  export let style;
+  export let style: ClipStyle;
+  export let container: HTMLElement;
   const dispatch = createEventDispatcher()
   let clipStyle: ClipStyle = { left: 0, top: 0, width: 0, height: 0 };
 
@@ -42,8 +43,9 @@
   function handlePointerDown(event: PointerEvent) {
     event.preventDefault()
     event.stopPropagation()
-    clipStyle.left = event.clientX
-    clipStyle.top = event.clientY
+    const rect = container.getBoundingClientRect()
+    clipStyle.left = event.clientX - rect.left
+    clipStyle.top = event.clientY - rect.top
     let started: boolean = false
     document.onpointermove = (e) => {
       if (!started) {
@@ -54,8 +56,9 @@
       const disY = e.clientY - event.clientY
       clipStyle.width = Math.abs(disX)
       clipStyle.height = Math.abs(disY)
-      if (disX < 0) clipStyle.left = e.clientX
-      if (disY < 0) clipStyle.top = e.clientY
+      // 向上/向左拖拽
+      if (disX < 0) clipStyle.left = e.clientX - rect.left
+      if (disY < 0) clipStyle.top = e.clientY - rect.top
       dispatch('move', clipStyle)
     }
     document.onpointerup = onUp
@@ -65,6 +68,7 @@
     document.onpointermove = null
     document.onpointerup = null
     document.onpointercancel = null
+    dispatch('end')
   }
 </script>
 
