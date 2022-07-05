@@ -11,12 +11,11 @@ gulp.task('sprite', function () {
         const arr = []
         data.sprites.forEach((sprite) => {
           arr.push(
-            `.mu-picture-sprite-${sprite.name} {
+            `.mu-picture__toolbar-${sprite.name} {
               display: inline-block;
               vertical-align: middle;
               width: ${sprite.px.width};
               height: ${sprite.px.height};
-              background: url("${data.spritesheet.image}") no-repeat;
               background-position: ${sprite.px.offset_x} ${sprite.px.offset_y};
             }`
           )
@@ -24,5 +23,5 @@ gulp.task('sprite', function () {
         return arr.join('\n')
       }
     }))
-    .pipe(gulp.dest('public/'))
+    .pipe(gulp.dest('src/assets/css'))
 })

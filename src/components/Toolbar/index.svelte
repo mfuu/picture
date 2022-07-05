@@ -1,4 +1,7 @@
-<section class="mu-picture__toolbar">
+<div class="mu-picture__toolbar">
+  <!-- file picker -->
+  <Picker />
+  <!-- toolbar -->
   {#each toolbars as toolbar }
     <div class="mu-picture__toolbar-group">
       {#each toolbar as item }
@@ -10,9 +13,10 @@
       {/each}
     </div>
   {/each}
-</section>
+</div>
 
 <script lang="ts">
+  import Picker from '../../components/Picker/index.svelte';
   import { createDefaultToolbarItemInfo } from './util';
   import type { toolbarInfo } from './interface';
   import { storeToolbarClick } from '../../store/index';
@@ -38,8 +42,8 @@
 <style>
   .mu-picture__toolbar {
     display: flex;
-    padding: 0 25px;
     height: 45px;
+    padding-right: 25px;
     background-color: #f7f9fc;
     border-bottom: 1px solid #ebedf2;
     border-radius: 3px 3px 0 0;
@@ -48,7 +52,7 @@
     display: flex;
     align-items: center;
   }
-  .mu-picture__toolbar-group:not(:last-child)::after {
+  .mu-picture__toolbar-group::before {
     content: '';
     height: 70%;
     width: 1px;
