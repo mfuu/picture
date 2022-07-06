@@ -71,28 +71,3 @@
     dispatch('end')
   }
 </script>
-
-<style>
-  .mu-picture__clip-mask {
-    position: absolute;
-    background-color: #000;
-    opacity: 0.5;
-    cursor: crosshair;
-  }
-  .mu-picture__clip-mask.top {
-    left: 0;
-    top: 0;
-    right: 0;
-  }
-  .mu-picture__clip-mask.right {
-    right: 0;
-  }
-  .mu-picture__clip-mask.bottom {
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
-  .mu-picture__clip-mask.left {
-    left: 0;
-  }
-</style>

@@ -17,6 +17,8 @@
     <span class="mu-picture__clip-dot down" on:pointerdown={ (e) => handlePointerDown(e, 'd') }></span>
     <span class="mu-picture__clip-dot left-down" on:pointerdown={ (e) => handlePointerDown(e, 'ld') }></span>
     <span class="mu-picture__clip-dot left" on:pointerdown={ (e) => handlePointerDown(e, 'l') }></span>
+
+    <Oprate opStyle={ opStyle } />
   {/if}
 </div>
 
@@ -31,7 +33,8 @@
 <div bind:this={ cipFull } class="mu-picture__clip-hiddenfull"></div>
 
 <script lang="ts">
-  import Mask from './Mask.svelte'
+  import Mask from './Mask.svelte';
+  import Oprate from './Oprate.svelte';
   import { onMount } from 'svelte';
   import type { ClipStyle } from './interface';
 
@@ -44,6 +47,10 @@
   let maskVisible: boolean = false;
   const clipStyle: ClipStyle = { left: 0, top: 0, width: 0, height: 0 };
   const lastPostion = { x: 0, y: 0 };
+  const opOffset = 35;
+  const opStyle = { bottom: `-${opOffset}px`, top: '' };
+
+  $: containerRect = container.getBoundingClientRect()
 
   onMount(() => {
     const { clientWidth, clientHeight } = cipFull
@@ -153,6 +160,14 @@
       // reset position
       lastPostion.x = evt.clientX
       lastPostion.y = evt.clientY
+      // check clip oprate position
+      if (clipStyle.top + clipStyle.height + 50 > containerRect.height) {
+        opStyle.bottom = ''
+        opStyle.top = `-${opOffset}px`
+      } else if (clipStyle.top < 50) {
+        opStyle.bottom = `-${opOffset}px`
+        opStyle.top = ''
+      }
     }
     document.onpointerup = onUp
     document.onpointercancel = onUp
@@ -164,69 +179,3 @@
     document.onpointercancel = null
   }
 </script>
-
-<style>
-  .mu-picture__clip {
-    position: absolute;
-    cursor: move;
-    z-index: 9009;
-  }
-  .mu-picture__clip-dot {
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    background: #FFF;
-  }
-  .mu-picture__clip-dot.left-top {
-    top: -4px;
-    left: -4px;
-    cursor: nw-resize;
-  }
-  .mu-picture__clip-dot.top {
-    top: -4px;
-    left: 50%;
-    margin-left: -4px;
-    cursor: n-resize;
-  }
-  .mu-picture__clip-dot.right-top {
-    top: -4px;
-    right: -4px;
-    cursor: ne-resize;
-  }
-  .mu-picture__clip-dot.right {
-    top: 50%;
-    margin-top: -4px;
-    right: -4px;
-    cursor: e-resize;
-  }
-  .mu-picture__clip-dot.right-down {
-    bottom: -4px;
-    right: -4px;
-    cursor: se-resize;
-  }
-  .mu-picture__clip-dot.down {
-    bottom: -4px;
-    left: 50%;
-    margin-left: -4px;
-    cursor: s-resize;
-  }
-  .mu-picture__clip-dot.left-down {
-    bottom: -4px;
-    left: -4px;
-    cursor: sw-resize;
-  }
-  .mu-picture__clip-dot.left {
-    top: 50%;
-    margin-top: -4px;
-    left: -4px;
-    cursor: w-resize;
-  }
-  .mu-picture__clip-hiddenfull {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
-  }
-</style>

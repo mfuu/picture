@@ -11,7 +11,7 @@ export function Mosaic(params: Parameters) {
 
   if (x < left || x > right || y < top || y > bottom) return
 
-  if (params.position.x - x > size / 2 || x - params.position.x > size/2 || params.position.y - y > size/2 || y - params.position.y > size/2) {
+  if (params.position.x - x > size / 2 || x - params.position.x > size / 2 || params.position.y - y > size / 2 || y - params.position.y > size / 2) {
     const image = params.context.getImageData(x - left, y - top, size, size)
     const { width, height } = image
     // 等分画布

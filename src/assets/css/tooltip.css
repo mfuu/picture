@@ -10,8 +10,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding: 8px 15px;
-  max-width: 200px;
+  padding: 6px 10px;
   border-radius: 4px;
   box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.4);
   z-index: 100;

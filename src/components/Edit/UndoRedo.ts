@@ -1,8 +1,7 @@
-
-
 export class UndoRedo {
   stack: Array<any>;
   index: number; // current index
+  
   constructor() {
     this.stack = []
     this.index = -1

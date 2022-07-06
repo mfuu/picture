@@ -1,29 +1,41 @@
 <div class="mu-picture__toolbar">
-  <!-- file picker -->
-  <Picker />
   <!-- toolbar -->
   {#each toolbars as toolbar }
     <div class="mu-picture__toolbar-group">
       {#each toolbar as item }
-        <button
-          class={`mu-picture__toolbar-icons ${item.className}`}
-          tooltip={ item.tooltip }
-          on:click={ () => handleToolbarClick(item) }
-        ></button>
+        <button tooltip={ item.tooltip } on:click={ () => handleToolbarClick(item) } >
+          <span class={`mu-picture__toolbar-icons mu-picture__toolbar-${item.className}`}></span>
+        </button>
       {/each}
     </div>
   {/each}
+  <!-- file picker -->
+  <div class="mu-picture__picker">
+    <input
+      type="file"
+      style="display: none;"
+      bind:this={ inputRef }
+      on:change={ handleFileChange }
+    />
+    <button tooltip={ '选择文件' } on:click={ handleButtonClick }>
+      <span class="mu-picture__toolbar-icons mu-picture__toolbar-local"></span>
+    </button>
+  </div>
 </div>
 
 <script lang="ts">
-  import Picker from '../../components/Picker/index.svelte';
+  import { getImageUrl } from '../../utils/index';
+  import { createEventDispatcher } from 'svelte';
+  import { storeImageUrl } from '../../store/index';
   import { createDefaultToolbarItemInfo } from './util';
   import type { toolbarInfo } from './interface';
   import { storeToolbarClick } from '../../store/index';
 
-  const defaults = [['undo', 'redo'], ['text'], ['mosaic'], ['clip']];
-
   let toolbars: Array<any> = [];
+  let inputRef: any;
+  const dispatch = createEventDispatcher();
+  const defaults = [['undo', 'redo'], ['text', 'mosaic', 'clip']];
+
 
   $: {
     defaults.forEach((group, index) => {
@@ -32,6 +44,17 @@
         toolbars[index].push({ ...createDefaultToolbarItemInfo(item) })
       })
     })
+  }
+
+  function handleFileChange(e: any) {
+    const blob = e.target.files[0]
+    if (blob) storeImageUrl.set(getImageUrl(blob))
+    dispatch('change', e.target.files)
+  }
+
+  function handleButtonClick(e: any) {
+    inputRef.click()
+    e.preventDefault()
   }
 
   function handleToolbarClick(item: toolbarInfo) {
@@ -43,7 +66,7 @@
   .mu-picture__toolbar {
     display: flex;
     height: 45px;
-    padding-right: 25px;
+    padding: 0 25px 0 10px;
     background-color: #f7f9fc;
     border-bottom: 1px solid #ebedf2;
     border-radius: 3px 3px 0 0;
@@ -52,25 +75,11 @@
     display: flex;
     align-items: center;
   }
-  .mu-picture__toolbar-group::before {
+  .mu-picture__toolbar-group::after {
     content: '';
-    height: 70%;
+    height: 55%;
     width: 1px;
-    margin: 0 10px;
-    background-color: #eee;
-  }
-  .mu-picture__toolbar button {
-    box-sizing: border-box;
-    cursor: pointer;
-    width: 32px;
-    height: 32px;
-    padding: 0;
-    border-radius: 3px;
-    margin: 7px 5px;
-    border: 1px solid #f7f9fc;
-  }
-  .mu-picture__toolbar button:hover {
-    border: 1px solid #e4e7ee;
-    background-color: #fff;
+    margin: 0 12px;
+    background-color: #e1e3e9;
   }
 </style>

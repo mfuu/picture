@@ -1,7 +1,7 @@
 <canvas
   bind:this={ canvas }
-  width="0"
-  height="0"
+  width={ canvasWidth }
+  height={ canvasHeight }
   on:pointerdown={ onDown }
 ></canvas>
 
@@ -21,7 +21,9 @@
   let context: CanvasRenderingContext2D;
   let image = new Image();
   let position: Position = { x: 0, y: 0 };
-  let mosaic: MosaicParam = { size: 30, degree: 5 };
+  let mosaic: MosaicParam = { size: 20, degree: 5 };
+  let canvasWidth: number = 1000;
+  let canvasHeight: number = 500;
 
   onMount(() => {
     context = canvas.getContext('2d')
@@ -39,12 +41,27 @@
 
   function handleImgChange(url: string) {
     if (!url) return
+    context.clearRect(0, 0, canvas.width, canvas.height)
     image.src = url
     image.onload = () => {
+      let dx: number, dy: number, dw: number, dh: number
       const { width, height } = image
-      canvas.width = width
-      canvas.height = height
-      context.drawImage(image, 0, 0, width, height)
+      const imageRate = width / height
+      const canvasRate = canvasWidth / canvasHeight
+      // 如果宽高都比画布小，直接取图片大小，否则等比缩放
+      if (width < canvasWidth && height < canvasHeight) {
+        dw = width
+        dh = height
+      } else if (imageRate > canvasRate) {
+        dw = canvasWidth
+        dh = canvasWidth / imageRate
+      } else {
+        dh = canvasHeight
+        dw = canvasHeight * imageRate
+      }
+      dx = (canvasWidth - dw) / 2
+      dy = (canvasHeight - dh) / 2
+      context.drawImage(image, dx, dy, dw, dh)
       undoRedo.insert(canvas)
       updateStore()
     }
@@ -88,9 +105,9 @@
           }
         })
       }
-      document.onpointerup = onUp
-      document.onpointercancel = onUp
     }
+    document.onpointerup = onUp
+    document.onpointercancel = onUp
   }
   function onUp() {
     document.onpointermove = null
@@ -100,7 +117,3 @@
     updateStore()
   }
 </script>
-
-<style>
-
-</style>
