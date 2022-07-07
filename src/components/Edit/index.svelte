@@ -80,6 +80,7 @@
   // ctrl + z and ctrl + y
   function onKeyDown(e: KeyboardEvent) {
     e.preventDefault()
+    e.stopPropagation()
     if (e.ctrlKey || e.metaKey) {
       if (e.code === KEYZ) {
         undoRedo.undo(canvas, context)

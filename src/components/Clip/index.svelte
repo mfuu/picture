@@ -84,6 +84,7 @@
     document.onpointermove = (evt: PointerEvent) => {
       event.preventDefault()
       event.stopPropagation()
+      // 边界值检测
       // 获取鼠标位置，和元素初始offset进行对比，
       const chaX = evt.clientX - clipStyle.left
       const chaY = evt.clientY - clipStyle.top
